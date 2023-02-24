@@ -7,7 +7,8 @@ COPY  setup.py s3docs-upload/* requirements.txt ./
 # Install dependencies
 RUN pip install \
     -r requirements.txt \
-    && python setup.py install \ 
+    && python setup.py bdist_wheel \ 
+    && pip install dist/s3docs_upload*.whl \
     && pip cache purge \
     && mkdir /docs && chmod -R 777 /docs && rm -rf /tmp/*
 
@@ -21,5 +22,5 @@ WORKDIR /docs
 EXPOSE 8000
 
 # Start development server by default
-ENTRYPOINT ["mkdocs"]
-CMD ["serve", "--dev-addr=0.0.0.0:8000"]
+#ENTRYPOINT ["mkdocs"]
+#CMD ["serve", "--dev-addr=0.0.0.0:8000"]
