@@ -2,7 +2,8 @@ from python:3.11-slim-bullseye
 
 # Set build directory
 WORKDIR /tmp
-COPY  setup.py s3docs-upload/* requirements.txt ./
+COPY  setup.py requirements.txt ./
+COPY s3docs_upload ./s3docs_upload/
 
 # Install dependencies
 RUN mkdir wheels \
@@ -19,8 +20,7 @@ USER mkdocs
 COPY --from=0 /tmp/wheels/* /tmp/wheels/
 
 # Install dependencies
-RUN pip install /tmp/wheels/*.whl \
-    && pip cache purge 
+RUN pip install /tmp/wheels/*.whl
 
 #RUN pip install pipdeptree && pipdeptree
 #RUN pip list --format freeze | awk -F = {'print $1'} | xargs pip show | grep -E 'Location:|Name:' | cut -d ' ' -f 2 | paste -d ' ' - - | awk '{gsub("-","_",$1); print $2 "/" tolower($1)}' | xargs du -sh 2> /dev/null | sort -h
