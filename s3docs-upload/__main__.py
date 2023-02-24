@@ -26,15 +26,6 @@ S3_SERVER_PROTO = os.environ.get('S3_SERVER_PROTO')
 S3_SERVER = os.environ.get('S3_SERVER')
 S3_STYLE = os.environ.get('S3_STYLE')
 
-##S3_BUCKET_NAME = 'test'
-##S3_REGION = 'us-east-1'
-##S3_SERVER_PORT = '9000'
-##S3_SERVER_PROTO = 'http'
-##S3_SERVER = 'localhost'
-##S3_STYLE = 'path'
-##
-##S3_ACCESS_KEY_ID = 'minio'
-##S3_SECRET_KEY = 'minio123'
 
 if not S3_BUCKET_NAME:
     raise Exception("Environment variable 'S3_BUCKET_NAME' must be provided")
