@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="s3docs_upload",
+    name="s3docs-upload",
     version='0.1.0',
     url='https://github.com/bkief/mkdocs-builder',
     install_requires=[
