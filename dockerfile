@@ -3,7 +3,7 @@ from python:3.11-slim-bullseye
 # Set build directory
 WORKDIR /tmp
 COPY  setup.py requirements.txt ./
-COPY s3docs_upload ./s3docs_upload/
+COPY s3docs-upload ./s3docs-upload/
 
 # Install dependencies
 RUN mkdir wheels \
