@@ -25,6 +25,7 @@ S3_SERVER_PORT = os.environ.get('S3_SERVER_PORT')
 S3_SERVER_PROTO = os.environ.get('S3_SERVER_PROTO')
 S3_SERVER = os.environ.get('S3_SERVER')
 S3_STYLE = os.environ.get('S3_STYLE')
+S3_SSL_VERIFY = os.environ.get('S3_SSL_VERIFY')
 
 
 if not S3_BUCKET_NAME:
@@ -39,6 +40,11 @@ elif not S3_SERVER:
     raise Exception("Environment variable 'S3_SERVER' must be provided")
 elif not S3_STYLE:
     raise Exception("Environment variable 'S3_STYLE' must be provided")
+
+if S3_SSL_VERIFY.upper() == "FALSE":
+  S3_SSL_VERIFY = False
+else:
+  S3_SSL_VERIFY = True
 
 if not S3_ACCESS_KEY_ID and not S3_SECRET_KEY:
     ANON_MODE = True
@@ -61,22 +67,24 @@ print("Using %s S3 endpoint: "%(lambda am: 'anonymous' if am else '')(ANON_MODE)
 
 if ANON_MODE:
     s3_client = boto3.client('s3',
-                      endpoint_url=end_point,
-                      region_name=S3_REGION,
-                      config=botoConfig(s3={'addressing_style': S3_STYLE},
-                                        signature_version=awsUNSIGNED,
-                                        ),
-                      
-                      )
+                              endpoint_url=end_point,
+                              verify = S3_SSL_VERIFY,
+                              region_name=S3_REGION,
+                              config=botoConfig(s3={'addressing_style': S3_STYLE},
+                                                signature_version=awsUNSIGNED,
+                                                ),
+
+                              )
 else:
     s3_client = boto3.client('s3',
-                      endpoint_url=end_point,
-                      region_name=S3_REGION,
-                      aws_access_key_id=S3_ACCESS_KEY_ID,
-                      aws_secret_access_key=S3_SECRET_KEY,
-                      config=botoConfig(s3={'addressing_style': S3_STYLE},
-                                        ),
-                      )
+                              endpoint_url=end_point,
+                               verify = S3_SSL_VERIFY,
+                              region_name=S3_REGION,
+                              aws_access_key_id=S3_ACCESS_KEY_ID,
+                              aws_secret_access_key=S3_SECRET_KEY,
+                              config=botoConfig(s3={'addressing_style': S3_STYLE},
+                                                ),
+                              )
 
 
 
