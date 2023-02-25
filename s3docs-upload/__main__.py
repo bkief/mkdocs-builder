@@ -1,6 +1,7 @@
 import os
 import argparse
 import glob
+import mimetypes
 
 import boto3
 from botocore import UNSIGNED as awsUNSIGNED
@@ -100,8 +101,12 @@ os.chdir(upload_path)
 for fpath in glob.glob("*", recursive=True):
     bn = os.path.basename(fpath)
     if os.path.isdir(fpath): continue
+    
+    mimetype, _ = mimetypes.guess_type(fpath)
+    if mimetype is None:
+        mimetype = "application/octet-stream"
     try:
-        response = s3_client.upload_file(fpath, S3_BUCKET_NAME, fpath)
+        response = s3_client.upload_file(fpath, S3_BUCKET_NAME, fpath, ExtraArgs={'ContentType': mimetype})
     except ClientError as e:
         print(e)
     
