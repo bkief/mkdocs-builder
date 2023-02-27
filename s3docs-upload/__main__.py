@@ -2,6 +2,7 @@ import os
 import argparse
 import glob
 import mimetypes
+from pathlib import Path
 
 import boto3
 from botocore import UNSIGNED as awsUNSIGNED
@@ -98,9 +99,8 @@ else:
     print('Bucket Already Empty')
 
 os.chdir(upload_path)
-for fpath in glob.glob("*", recursive=True):
+for fpath in Path(".").rglob('*'):
     bn = os.path.basename(fpath)
-    if os.path.isdir(fpath): continue
     
     mimetype, _ = mimetypes.guess_type(fpath)
     if mimetype is None:
