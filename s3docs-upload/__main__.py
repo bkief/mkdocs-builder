@@ -100,6 +100,7 @@ else:
 
 os.chdir(upload_path)
 for fpath in Path(".").rglob('*'):
+    fpath = str(fpath)
     bn = os.path.basename(fpath)
     
     mimetype, _ = mimetypes.guess_type(fpath)
