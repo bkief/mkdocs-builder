@@ -19,7 +19,7 @@ RUN groupadd --gid 1000 mkdocs && useradd --uid 1000 --gid 1000 -m mkdocs && mkd
 COPY --from=0 /tmp/wheels/* /tmp/wheels/
 
 # Install dependencies
-RUN apt update && apt install git
+RUN apt-get update && apt-get install git
 RUN pip install /tmp/wheels/*.whl && rm -rf /tmp/*
 
 #RUN pip install pipdeptree && pipdeptree
